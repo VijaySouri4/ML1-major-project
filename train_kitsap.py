@@ -89,6 +89,15 @@ aug = ImageDataGenerator(horizontal_flip=True)
 aug_val = ImageDataGenerator()
 val_gen = data_generator(df_val, aug_val)
 
+
+def iou(y_true, y_pred):
+    smooth = 1.
+    intersection = K.sum(y_true * y_pred)
+    summ = K.sum(y_true + y_pred)
+    iou = (intersection + smooth) / (summ - intersection + smooth)
+    return iou
+
+
 for i in range(0, divisions, step):
     pick = df_train.iloc[i: i+step]
     train_gen = data_generator(pick, aug)
@@ -97,7 +106,8 @@ for i in range(0, divisions, step):
 
     unet_local = Unet((global_size))
     local_model = unet_local.build()
-    local_model.compile(optimizer='adam', loss=binary_crossentropy)  # metrics
+    local_model.compile(
+        optimizer='adam', loss=binary_crossentropy, metrics=[iou])  # metrics
 
     if i != 0:
         global_weights = requ(local_weigths)
