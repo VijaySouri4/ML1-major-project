@@ -125,7 +125,7 @@ class AttnUnet(Unet):
 
     #     up = Conv2DTranspose(features, [2, 2], strides=[2, 2])(down_layer)
         up = UpSampling2D(size=(2, 2), data_format=data_format)(down_layer)
-        layer = Unet.attention_block_2d(
+        layer = attention_block_2d(
             x=layer, g=up, inter_channel=in_channel // 4, data_format=data_format)
 
         if data_format == 'channels_last':
