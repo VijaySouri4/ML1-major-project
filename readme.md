@@ -25,6 +25,7 @@ The format is GeoTIFF (TIFF with geo referencing, but the images can be used as 
 - Models.py should be present in central server and all the client systems.
 - Make sure to change the host ip address in fed_client.py to the central server's ip.
 - All the clients should have fed_client.py along with train_[city].py
+- Central server waits for atleast 3 clients to send their data (weights).
 
 ##### Central Server
 ```python3 fed_server.py```
