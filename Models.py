@@ -136,7 +136,7 @@ class AttnUnet(Unet):
         concate = my_concat([up, layer])
         return concate
 
-    def att_unet(img_w=240, img_h=240, data_format='channels_last'):
+    def att_unet(self, img_w=240, img_h=240, data_format='channels_last'):
         inputs = Input((240, 240, 2))
         x = inputs
         depth = 4
@@ -160,7 +160,7 @@ class AttnUnet(Unet):
     # x - 512 si - 256
         for i in reversed(range(depth)):
             features = features / 2
-            x = attention_up_and_concate(
+            x = self.attention_up_and_concate(
                 x, skips[i], features, data_format=data_format)
             x = Conv2D(features, (3, 3), activation='relu',
                        padding='same', data_format=data_format)(x)
